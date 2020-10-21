@@ -14,52 +14,45 @@ const employees = [];
 
 
 
+function init() {
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "role",
+            message: "What role is the employee",
+            chocies: ["Manager", "Engineer", "Intern"]
+        },
+        {
+            type: "input",
+            name: "name",
+            message: " employees name:"
+        },
+        {
+            type: "input",
+            name: "ID",
+            message: " employees ID"
+        },
+        {
+            type: "input",
+            name: "Email",
+            message: "employee's email:",
+        },
+    ]).then (answers => {
+        if (answers.role === "Manager"){
+            inquirer.prompt([
+                {
+                    type: "input",
+                    name: "Office",
+                    message: "What is your manager's office number?",
+                }
+        }]).then(res =>{
+            const manager = new Manager (answers.Name, answers.Id, answers.Email, res.Office);
+            employees.push(manager);
+            addRole
+        })
+    })
+}
 
-const managerInput = [
-    {
-        type: "input",
-        name: "name",
-        message: " employees name:"
-    },
-    {
-        type: "input",
-        name: "ID",
-        message: " employees ID"
-    },
-    {
-        type: "input",
-        name: "Email",
-        message: "employee's email:",
-    },
-    {
-        type: "input",
-        name: "Github",
-        message: "employee's GitHub username:",
-    }   
-]
-
-const engineerInput = [
-    {
-        type: "input",
-        name: "name",
-        message: "Enter employee's name:",
-    },
-    {
-        type: "input",
-        name: "ID",
-        message: "Enter employee's ID:",
-    }, 
-    {
-        type: "input",
-        name: "Email",
-        message: "Enter employee's email:",
-    },
-    {
-        type: "input",
-        name: "Github",
-        message: "Enter employee's GitHub username:",
-    },    
-]
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
