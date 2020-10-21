@@ -18,25 +18,25 @@ function init() {
             type: "list",
             name: "role",
             message: "What role is the employee",
-            chocies: ["Manager", "Engineer", "Intern"]
+            choices: ["Manager", "Engineer", "Intern"]
         },
         {
             type: "input",
-            name: "name",
-            message: " employees name:"
+            name: "Name",
+            message: "Whats the employees name:"
         },
         {
             type: "input",
-            name: "ID",
-            message: " employees ID"
+            name: "Id",
+            message: " Whats the employees ID"
         },
         {
             type: "input",
             name: "Email",
-            message: "employee's email:",
+            message: "Whats the employee's email:",
         },
-    ]).then (answers => {
-        if (answers.role === "Manager"){
+    ]).then(answers => {
+        if (answers.role === "Manager") {
             inquirer.prompt([
                 {
 
@@ -46,11 +46,11 @@ function init() {
 
                 }
             ])
-            .then(function (res) {
-                const manager = new Manager(answers.Name, answers.Id, answers.Email, res.Office);
-                employees.push(manager);
-                addRole();
-            })
+                .then(function (res) {
+                    const manager = new Manager(answers.Name, answers.Id, answers.Email, res.Office);
+                    employees.push(manager);
+                    addRole();
+                })
         } else if (answers.role === "Engineer") {
             inquirer.prompt([
                 {
@@ -59,11 +59,11 @@ function init() {
                     message: "Enter employee's GitHub username:",
                 }
             ])
-            .then(function (res) {
-                const engineer = new Engineer(answers.Name, answers.Id, answers.Email, res.Github);
-                employees.push(engineer);
-                addRole();
-            });
+                .then(function (res) {
+                    const engineer = new Engineer(answers.Name, answers.Id, answers.Email, res.Github);
+                    employees.push(engineer);
+                    addRole();
+                });
         } else if (answers.role === "Intern") {
             inquirer.prompt([
                 {
@@ -72,17 +72,38 @@ function init() {
                     message: "What is the employee's school?"
                 }
             ])
-            .then(function (res) {
-                const intern = new Intern(answers.name, answers.id, answers.email, res.school);
-                employees.push(intern);
-                addRole();
+                .then(function (res) {
+                    const intern = new Intern(answers.name, answers.id, answers.email, res.school);
+                    employees.push(intern);
+                    addRole();
+                })
+        }
+    })
+}
+function addRole() {
+    inquirer.prompt([
+        {
+            type: "confirm",
+            name: "Add",
+            message: "Would you like to add another employee to the list?",
+        }
+    ]).then(function (res) {
+        if (res.Add) {
+            init()
+        }
+        else {
+            const data = render(employees);
+            fs.writeFile(outputPath, data, function (err) {
+                if (err) return err;
+                console.log('employees', employees);
+                console.log('data', data);
             })
         }
     })
 }
 
 
-
+init()
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
