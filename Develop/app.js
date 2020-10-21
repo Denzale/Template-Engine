@@ -12,8 +12,6 @@ const render = require("./lib/htmlRenderer");
 const employees = [];
 
 
-
-
 function init() {
     inquirer.prompt([
         {
@@ -41,17 +39,48 @@ function init() {
         if (answers.role === "Manager"){
             inquirer.prompt([
                 {
+
                     type: "input",
                     name: "Office",
-                    message: "What is your manager's office number?",
+                    message: "Enter employee's office number:",
+
                 }
-        }]).then(res =>{
-            const manager = new Manager (answers.Name, answers.Id, answers.Email, res.Office);
-            employees.push(manager);
-            addRole
-        })
+            ])
+            .then(function (res) {
+                const manager = new Manager(answers.Name, answers.Id, answers.Email, res.Office);
+                employees.push(manager);
+                addRole();
+            })
+        } else if (answers.role === "Engineer") {
+            inquirer.prompt([
+                {
+                    type: "input",
+                    name: "Github",
+                    message: "Enter employee's GitHub username:",
+                }
+            ])
+            .then(function (res) {
+                const engineer = new Engineer(answers.Name, answers.Id, answers.Email, res.Github);
+                employees.push(engineer);
+                addRole();
+            });
+        } else if (answers.role === "Intern") {
+            inquirer.prompt([
+                {
+                    type: "input",
+                    name: "school",
+                    message: "What is the employee's school?"
+                }
+            ])
+            .then(function (res) {
+                const intern = new Intern(answers.name, answers.id, answers.email, res.school);
+                employees.push(intern);
+                addRole();
+            })
+        }
     })
 }
+
 
 
 // Write code to use inquirer to gather information about the development team members,
